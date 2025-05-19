@@ -22,7 +22,7 @@
 Summary: Compatibility version of the OpenSSL library
 Name: compat-openssl10
 Version: 1.0.2o
-Release: 4%{?dist}
+Release: 4%{?dist}.1
 Epoch: 1
 # We have to remove certain patented algorithms from the openssl source
 # tarball with the hobble-openssl script which is included below.
@@ -93,6 +93,8 @@ Patch80: openssl-1.0.2o-wrap-pad.patch
 Patch81: openssl-1.0.2a-padlock64.patch
 Patch82: openssl-1.0.2m-trusted-first-doc.patch
 Patch83: openssl-1.0.2o-cve-2022-0778.patch
+Patch84: openssl-1.0.2o-update-expired-certificates.patch
+Patch85: openssl-1.0.2-cve-2023-0286-X400.patch
 
 License: OpenSSL
 Group: System Environment/Libraries
@@ -196,6 +198,8 @@ cp %{SOURCE12} %{SOURCE13} crypto/ec/
 %patch81 -p1 -b .padlock64
 %patch82 -p1 -b .trusted-first
 %patch83 -p1 -b .cve-2022-0778
+%patch84 -p1 -b .update-expired-certificates
+%patch85 -p1 -b .cve-2023-0286
 
 sed -i 's/SHLIB_VERSION_NUMBER "1.0.0"/SHLIB_VERSION_NUMBER "%{version}"/' crypto/opensslv.h
 
@@ -418,9 +422,13 @@ install -m 644 apps/openssl10.cnf $RPM_BUILD_ROOT%{_sysconfdir}/pki/openssl10.cn
 %postun -p /sbin/ldconfig
 
 %changelog
+* Tue Apr 29 2025 Petr Hybl <phybl@redhat.com> - 1.1.0.2o-4.1
+- Fix CVE-2023-0286 X.400 address type confusion in X.509 GeneralName
+  Resolves: RHEL-9699
+
 * Wed May 04 2022 Clemens Lang <cllang@redhat.com> - 1:1.0.2o-4
 - Fix CVE-2022-0778: Infinite loop in BN_mod_sqrt() reachable when parsing certificates
-  Resolves: rhbz#2077417
+  Resolves: rhbz#2077418
 
 * Fri Aug  3 2018 Tomáš Mráz <tmraz@redhat.com> 1.0.2o-3
 - provide and use compat openssl10.cnf as the non-compat one is incompatible
