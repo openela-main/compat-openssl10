@@ -22,7 +22,7 @@
 Summary: Compatibility version of the OpenSSL library
 Name: compat-openssl10
 Version: 1.0.2o
-Release: 4%{?dist}.1
+Release: 4%{?dist}.2
 Epoch: 1
 # We have to remove certain patented algorithms from the openssl source
 # tarball with the hobble-openssl script which is included below.
@@ -95,6 +95,7 @@ Patch82: openssl-1.0.2m-trusted-first-doc.patch
 Patch83: openssl-1.0.2o-cve-2022-0778.patch
 Patch84: openssl-1.0.2o-update-expired-certificates.patch
 Patch85: openssl-1.0.2-cve-2023-0286-X400.patch
+Patch86: openssl-1.0.2o-cve-2026-28390.patch
 
 License: OpenSSL
 Group: System Environment/Libraries
@@ -200,6 +201,7 @@ cp %{SOURCE12} %{SOURCE13} crypto/ec/
 %patch83 -p1 -b .cve-2022-0778
 %patch84 -p1 -b .update-expired-certificates
 %patch85 -p1 -b .cve-2023-0286
+%patch86 -p1 -b .cve-2026-28390
 
 sed -i 's/SHLIB_VERSION_NUMBER "1.0.0"/SHLIB_VERSION_NUMBER "%{version}"/' crypto/opensslv.h
 
@@ -422,6 +424,10 @@ install -m 644 apps/openssl10.cnf $RPM_BUILD_ROOT%{_sysconfdir}/pki/openssl10.cn
 %postun -p /sbin/ldconfig
 
 %changelog
+* Fri May 15 2026 Pavol Žáčik <pzacik@redhat.com> - 1.1.0.2o-4.2
+- Fixes CVE-2026-28390: Denial of Service due to NULL pointer dereference in CMS EnvelopedData processing
+  Resolves: RHEL-165754
+
 * Tue Apr 29 2025 Petr Hybl <phybl@redhat.com> - 1.1.0.2o-4.1
 - Fix CVE-2023-0286 X.400 address type confusion in X.509 GeneralName
   Resolves: RHEL-9699
