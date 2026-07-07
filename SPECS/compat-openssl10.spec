@@ -22,7 +22,7 @@
 Summary: Compatibility version of the OpenSSL library
 Name: compat-openssl10
 Version: 1.0.2o
-Release: 4%{?dist}.2
+Release: 4%{?dist}.3
 Epoch: 1
 # We have to remove certain patented algorithms from the openssl source
 # tarball with the hobble-openssl script which is included below.
@@ -96,6 +96,7 @@ Patch83: openssl-1.0.2o-cve-2022-0778.patch
 Patch84: openssl-1.0.2o-update-expired-certificates.patch
 Patch85: openssl-1.0.2-cve-2023-0286-X400.patch
 Patch86: openssl-1.0.2o-cve-2026-28390.patch
+Patch87: openssl-1.0.2o-cve-2026-45447.patch
 
 License: OpenSSL
 Group: System Environment/Libraries
@@ -146,62 +147,63 @@ support various cryptographic algorithms and protocols.
 
 cp %{SOURCE12} %{SOURCE13} crypto/ec/
 
-%patch1 -p1 -b .rpmbuild
-%patch2 -p1 -b .defaults
-%patch4 -p1 -b .enginesdir %{?_rawbuild}
-%patch5 -p1 -b .no-rpath
-%patch6 -p1 -b .use-localhost
-%patch7 -p1 -b .timezone
-%patch8 -p1 -b .perlfind %{?_rawbuild}
-%patch9 -p1 -b .aliasing
-%patch10 -p1 -b .conf-10
+%patch -P 1 -p1 -b .rpmbuild
+%patch -P 2 -p1 -b .defaults
+%patch -P 4 -p1 -b .enginesdir %{?_rawbuild}
+%patch -P 5 -p1 -b .no-rpath
+%patch -P 6 -p1 -b .use-localhost
+%patch -P 7 -p1 -b .timezone
+%patch -P 8 -p1 -b .perlfind %{?_rawbuild}
+%patch -P 9 -p1 -b .aliasing
+%patch -P 10 -p1 -b .conf-10
 
-%patch23 -p1 -b .default-paths
-%patch24 -p1 -b .issuer-hash
+%patch -P 23 -p1 -b .default-paths
+%patch -P 24 -p1 -b .issuer-hash
 
-%patch33 -p1 -b .ca-dir
-%patch34 -p1 -b .x509
-%patch35 -p1 -b .version-add-engines
-%patch39 -p1 -b .ipv6-apps
-%patch40 -p1 -b .fips
-%patch45 -p1 -b .env-zlib
-%patch47 -p1 -b .warning
-%patch49 -p1 -b .algo-doc
-%patch50 -p1 -b .dtls1-abi
-%patch51 -p1 -b .version
-%patch56 -p1 -b .x931
-%patch58 -p1 -b .md5-allow
-%patch60 -p1 -b .dgst
-%patch63 -p1 -b .starttls
-%patch65 -p1 -b .chil
-%patch66 -p1 -b .pkgconfig
-%patch68 -p1 -b .secure-getenv
-%patch70 -p1 -b .fips-ec
-%patch71 -p1 -b .manfix
-%patch72 -p1 -b .fips-ctor
-%patch73 -p1 -b .suiteb
-%patch74 -p1 -b .deprecate-algos
-%patch75 -p1 -b .compat
-%patch76 -p1 -b .fips-reqs
-%patch77 -p1 -b .strength
-%patch78 -p1 -b .cc-reqs
-%patch90 -p1 -b .enc-fail
-%patch92 -p1 -b .system
-%patch93 -p1 -b .v2v3
-%patch94 -p1 -b .secp256k1
-%patch95 -p1 -b .nistp224
-%patch96 -p1 -b .speed-doc
-%patch97 -p1 -b .nokrb5-abi
-%patch98 -p1 -b .long-hello
-%patch99 -p1 -b .randlock
+%patch -P 33 -p1 -b .ca-dir
+%patch -P 34 -p1 -b .x509
+%patch -P 35 -p1 -b .version-add-engines
+%patch -P 39 -p1 -b .ipv6-apps
+%patch -P 40 -p1 -b .fips
+%patch -P 45 -p1 -b .env-zlib
+%patch -P 47 -p1 -b .warning
+%patch -P 49 -p1 -b .algo-doc
+%patch -P 50 -p1 -b .dtls1-abi
+%patch -P 51 -p1 -b .version
+%patch -P 56 -p1 -b .x931
+%patch -P 58 -p1 -b .md5-allow
+%patch -P 60 -p1 -b .dgst
+%patch -P 63 -p1 -b .starttls
+%patch -P 65 -p1 -b .chil
+%patch -P 66 -p1 -b .pkgconfig
+%patch -P 68 -p1 -b .secure-getenv
+%patch -P 70 -p1 -b .fips-ec
+%patch -P 71 -p1 -b .manfix
+%patch -P 72 -p1 -b .fips-ctor
+%patch -P 73 -p1 -b .suiteb
+%patch -P 74 -p1 -b .deprecate-algos
+%patch -P 75 -p1 -b .compat
+%patch -P 76 -p1 -b .fips-reqs
+%patch -P 77 -p1 -b .strength
+%patch -P 78 -p1 -b .cc-reqs
+%patch -P 90 -p1 -b .enc-fail
+%patch -P 92 -p1 -b .system
+%patch -P 93 -p1 -b .v2v3
+%patch -P 94 -p1 -b .secp256k1
+%patch -P 95 -p1 -b .nistp224
+%patch -P 96 -p1 -b .speed-doc
+%patch -P 97 -p1 -b .nokrb5-abi
+%patch -P 98 -p1 -b .long-hello
+%patch -P 99 -p1 -b .randlock
 
-%patch80 -p1 -b .wrap
-%patch81 -p1 -b .padlock64
-%patch82 -p1 -b .trusted-first
-%patch83 -p1 -b .cve-2022-0778
-%patch84 -p1 -b .update-expired-certificates
-%patch85 -p1 -b .cve-2023-0286
-%patch86 -p1 -b .cve-2026-28390
+%patch -P 80 -p1 -b .wrap
+%patch -P 81 -p1 -b .padlock64
+%patch -P 82 -p1 -b .trusted-first
+%patch -P 83 -p1 -b .cve-2022-0778
+%patch -P 84 -p1 -b .update-expired-certificates
+%patch -P 85 -p1 -b .cve-2023-0286
+%patch -P 86 -p1 -b .cve-2026-28390
+%patch -P 87 -p1 -b .cve-2026-45447
 
 sed -i 's/SHLIB_VERSION_NUMBER "1.0.0"/SHLIB_VERSION_NUMBER "%{version}"/' crypto/opensslv.h
 
@@ -424,6 +426,9 @@ install -m 644 apps/openssl10.cnf $RPM_BUILD_ROOT%{_sysconfdir}/pki/openssl10.cn
 %postun -p /sbin/ldconfig
 
 %changelog
+* Fri Jun 26 2026 Stepan Broz <sbroz@redhat.com> - 1.1.0-2o-4.3
+- Fix CVE-2026-45447: Fix double-free of caller-owned BIO in PKCS7_verify
+
 * Fri May 15 2026 Pavol Žáčik <pzacik@redhat.com> - 1.1.0.2o-4.2
 - Fixes CVE-2026-28390: Denial of Service due to NULL pointer dereference in CMS EnvelopedData processing
   Resolves: RHEL-165754
