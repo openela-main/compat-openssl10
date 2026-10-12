@@ -22,7 +22,7 @@
 Summary: Compatibility version of the OpenSSL library
 Name: compat-openssl10
 Version: 1.0.2o
-Release: 4%{?dist}.3
+Release: 4%{?dist}.4
 Epoch: 1
 # We have to remove certain patented algorithms from the openssl source
 # tarball with the hobble-openssl script which is included below.
@@ -97,6 +97,7 @@ Patch84: openssl-1.0.2o-update-expired-certificates.patch
 Patch85: openssl-1.0.2-cve-2023-0286-X400.patch
 Patch86: openssl-1.0.2o-cve-2026-28390.patch
 Patch87: openssl-1.0.2o-cve-2026-45447.patch
+Patch88: openssl-1.0.2o-cve-2026-84782.patch
 
 License: OpenSSL
 Group: System Environment/Libraries
@@ -204,6 +205,7 @@ cp %{SOURCE12} %{SOURCE13} crypto/ec/
 %patch -P 85 -p1 -b .cve-2023-0286
 %patch -P 86 -p1 -b .cve-2026-28390
 %patch -P 87 -p1 -b .cve-2026-45447
+%patch -P 88 -p1 -b .cve-2026-84782
 
 sed -i 's/SHLIB_VERSION_NUMBER "1.0.0"/SHLIB_VERSION_NUMBER "%{version}"/' crypto/opensslv.h
 
@@ -426,6 +428,9 @@ install -m 644 apps/openssl10.cnf $RPM_BUILD_ROOT%{_sysconfdir}/pki/openssl10.cn
 %postun -p /sbin/ldconfig
 
 %changelog
+* Thu Oct 01 2026 Pavol Zacik <pzacik@redhat.com> - 1:1.0.2o-4.4
+- Fix CVE-2026-84782: DTLS Retransmits Handshake Messages From a Stale Buffer Offset
+
 * Fri Jun 26 2026 Stepan Broz <sbroz@redhat.com> - 1.1.0-2o-4.3
 - Fix CVE-2026-45447: Fix double-free of caller-owned BIO in PKCS7_verify
 
